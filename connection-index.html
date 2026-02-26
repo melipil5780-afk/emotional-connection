@@ -1,0 +1,1986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Close — A Course on Emotional Connection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600&family=Crimson+Pro:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+/* =============================================
+   RESET & TOKENS
+============================================= */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --sw: 272px;
+  --sidebar: #1B1F2E;
+  --sidebar-hover: rgba(255,255,255,0.05);
+  --sidebar-active: rgba(232,195,165,0.12);
+  --s-text: rgba(255,255,255,0.55);
+  --s-active: #F0DDD0;
+  --bg: #FAF7F4;
+  --panel: #FFFFFF;
+  --border: #EAE4DC;
+  --border-mid: #D4CAC0;
+  --text: #1E1A16;
+  --text-mid: #5C5248;
+  --text-light: #8C8278;
+  /* accent palette */
+  --rose: #B85C6E;
+  --rose-bg: rgba(184,92,110,0.07);
+  --rose-border: rgba(184,92,110,0.22);
+  --gold: #9A7B3C;
+  --gold-bg: rgba(154,123,60,0.07);
+  --gold-border: rgba(154,123,60,0.22);
+  --teal: #3D7D78;
+  --teal-bg: rgba(61,125,120,0.07);
+  --teal-border: rgba(61,125,120,0.2);
+  --plum: #6B4E71;
+  --plum-bg: rgba(107,78,113,0.07);
+  --plum-border: rgba(107,78,113,0.2);
+  --blue: #3A6090;
+  --blue-bg: rgba(58,96,144,0.07);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* =============================================
+   SIDEBAR
+============================================= */
+.sidebar{
+  position:fixed;top:0;left:0;bottom:0;
+  width:var(--sw);
+  background:var(--sidebar);
+  z-index:200;
+  display:flex;flex-direction:column;
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
+}
+.s-logo{
+  padding:24px 20px 18px;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  flex-shrink:0;
+}
+.s-logo .wordmark{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.9rem;
+  font-weight:500;
+  color:#fff;
+  letter-spacing:-0.02em;
+  line-height:1;
+}
+.s-logo .wordmark em{font-style:italic;color:#E8C3A5;}
+.s-logo p{
+  font-size:0.68rem;
+  color:var(--s-text);
+  margin-top:5px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  font-weight:400;
+}
+.s-progress{
+  padding:14px 20px;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  flex-shrink:0;
+}
+.s-prog-label{
+  display:flex;justify-content:space-between;
+  font-size:0.68rem;color:var(--s-text);margin-bottom:7px;
+}
+.s-prog-track{height:2px;background:rgba(255,255,255,0.08);border-radius:1px;}
+.s-prog-fill{
+  height:100%;background:#E8C3A5;
+  border-radius:1px;width:0%;
+  transition:width .5s ease;
+}
+.s-nav{
+  flex:1;overflow-y:auto;padding:8px 0 24px;
+}
+.s-nav::-webkit-scrollbar{width:3px}
+.s-nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.mod-label{
+  padding:16px 20px 5px;
+  font-size:0.62rem;font-weight:600;
+  letter-spacing:0.14em;text-transform:uppercase;
+  color:rgba(255,255,255,0.28);
+}
+.n-item{
+  display:flex;align-items:center;gap:11px;
+  padding:9px 20px;cursor:pointer;
+  transition:background .15s;position:relative;
+}
+.n-item:hover{background:var(--sidebar-hover)}
+.n-item.active{background:var(--sidebar-active)}
+.n-item.active::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:2px;background:#E8C3A5;border-radius:0 1px 1px 0;
+}
+.n-dot{
+  width:22px;height:22px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,0.18);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.58rem;font-weight:600;
+  color:rgba(255,255,255,0.28);flex-shrink:0;
+  transition:all .2s;
+}
+.n-dot.done{background:#E8C3A5;border-color:#E8C3A5;color:var(--sidebar);font-size:.65rem;}
+.n-dot.lit{border-color:#E8C3A5;color:#E8C3A5;}
+.n-text{flex:1;min-width:0;}
+.n-text .n-num{font-size:0.62rem;color:rgba(255,255,255,0.32);font-weight:400;}
+.n-text .n-name{
+  font-size:0.79rem;color:var(--s-text);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  line-height:1.3;margin-top:1px;
+}
+.n-item.active .n-name{color:var(--s-active);}
+.n-item.active .n-dot{border-color:#E8C3A5;color:#E8C3A5;}
+.soon-tag{
+  font-size:0.58rem;padding:2px 6px;
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:3px;color:rgba(255,255,255,0.25);
+  flex-shrink:0;
+}
+
+/* =============================================
+   MAIN
+============================================= */
+.main{margin-left:var(--sw);min-height:100vh;display:flex;flex-direction:column;}
+
+/* TOPBAR */
+.topbar{
+  background:var(--panel);border-bottom:1px solid var(--border);
+  padding:0 36px;height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;gap:16px;
+}
+.hamburger{
+  display:none;background:none;border:none;cursor:pointer;
+  padding:6px;color:var(--text);flex-direction:column;gap:5px;
+}
+.hamburger span{display:block;width:20px;height:1.5px;background:currentColor;border-radius:1px;transition:all .2s;}
+.tb-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.05rem;font-weight:500;
+  color:var(--text);flex:1;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.tb-badge{
+  font-size:0.67rem;font-weight:600;
+  padding:4px 11px;border-radius:20px;
+  letter-spacing:0.05em;text-transform:uppercase;
+  flex-shrink:0;
+}
+.tb-badge.m1{background:var(--rose-bg);color:var(--rose);border:1px solid var(--rose-border);}
+.tb-badge.m2{background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal-border);}
+.tb-badge.m3{background:var(--plum-bg);color:var(--plum);border:1px solid var(--plum-border);}
+.tb-badge.intro{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border);}
+
+/* =============================================
+   LESSON CANVAS
+============================================= */
+.lview{
+  flex:1;max-width:760px;
+  margin:0 auto;width:100%;
+  padding:44px 36px 88px;
+  animation:fadeUp .28s ease;
+}
+.lview.hidden{display:none;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Typography */
+.lview h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.7rem,3.5vw,2.3rem);
+  font-weight:600;line-height:1.15;
+  color:var(--text);
+  margin-bottom:8px;letter-spacing:-0.02em;
+}
+.lview .intro-line{
+  font-family:'Crimson Pro',serif;
+  font-style:italic;
+  font-size:1.08rem;line-height:1.8;
+  color:var(--text-mid);margin-bottom:32px;
+}
+.lview h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.25rem;font-weight:600;
+  color:var(--text);
+  margin:34px 0 12px;letter-spacing:-0.01em;
+}
+.lview p{
+  font-size:0.94rem;line-height:1.82;
+  color:#3A322A;margin-bottom:14px;font-weight:300;
+}
+.lview p strong{color:var(--text);font-weight:600;}
+.lview p em{font-style:italic;color:var(--text-mid);}
+
+/* Objectives */
+.obj-bar{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:12px;padding:16px 20px;margin-bottom:32px;
+  display:flex;gap:14px;align-items:flex-start;
+}
+.obj-icon{font-size:1.2rem;flex-shrink:0;margin-top:2px;}
+.obj-chips-label{
+  font-size:0.67rem;font-weight:600;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--text-light);margin-bottom:8px;
+}
+.obj-chips{display:flex;flex-wrap:wrap;gap:6px;}
+.obj-chip{
+  font-size:0.75rem;padding:4px 11px;
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:20px;color:var(--text-mid);font-weight:400;
+}
+
+/* Callouts */
+.callout{
+  border-radius:10px;padding:14px 18px;
+  margin:20px 0;display:flex;gap:13px;
+}
+.callout.rose{background:var(--rose-bg);border:1px solid var(--rose-border);}
+.callout.teal{background:var(--teal-bg);border:1px solid var(--teal-border);}
+.callout.gold{background:var(--gold-bg);border:1px solid var(--gold-border);}
+.callout.plum{background:var(--plum-bg);border:1px solid var(--plum-border);}
+.callout.blue{background:var(--blue-bg);border:1px solid rgba(58,96,144,0.18);}
+.co-icon{font-size:1rem;flex-shrink:0;margin-top:2px;}
+.co-label{
+  font-size:0.67rem;font-weight:700;
+  letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px;
+}
+.callout.rose .co-label{color:var(--rose);}
+.callout.teal .co-label{color:var(--teal);}
+.callout.gold .co-label{color:var(--gold);}
+.callout.plum .co-label{color:var(--plum);}
+.callout.blue .co-label{color:var(--blue);}
+.co-body p{font-size:0.87rem;line-height:1.65;color:var(--text-mid);margin:0;}
+.co-body p strong{color:var(--text);font-weight:600;}
+
+/* Pull quote */
+.pull-q{
+  padding:16px 24px;margin:26px 0;
+  border-left:2px solid #E8C3A5;
+  background:linear-gradient(to right,rgba(232,195,165,0.06),transparent);
+}
+.pull-q p{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-size:1.12rem;
+  line-height:1.65;color:var(--text);margin:0 0 6px;
+}
+.pull-q cite{font-size:0.73rem;color:var(--text-light);font-style:normal;}
+
+/* Definition box */
+.def-box{
+  border:1px solid var(--border);border-radius:12px;
+  overflow:hidden;margin:18px 0;
+}
+.def-head{
+  background:#F3EEE8;padding:9px 16px;
+  font-size:0.67rem;font-weight:700;
+  letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);
+}
+.def-body{padding:14px 16px;background:var(--panel);}
+.def-body p{font-size:0.9rem;line-height:1.75;margin:0;color:#3A322A;}
+
+/* Skill cards grid */
+.card-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:12px;margin:18px 0;
+}
+@media(max-width:520px){.card-grid{grid-template-columns:1fr;}}
+.s-card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:12px;padding:16px;
+}
+.s-card .sk{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.7rem;font-weight:600;
+  line-height:1;margin-bottom:7px;
+}
+.s-card h5{font-size:0.88rem;font-weight:600;margin-bottom:5px;}
+.s-card p{font-size:0.8rem;color:var(--text-mid);line-height:1.55;margin:0;font-weight:300;}
+
+/* Steps */
+.steps{margin:16px 0;}
+.step-row{
+  display:flex;gap:16px;padding-bottom:18px;position:relative;
+}
+.step-row:not(:last-child)::before{
+  content:'';position:absolute;
+  left:13px;top:27px;bottom:0;
+  width:1px;background:var(--border);
+}
+.s-num{
+  width:26px;height:26px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.72rem;font-weight:600;
+  flex-shrink:0;position:relative;z-index:1;
+}
+.s-num.rose{background:var(--rose-bg);color:var(--rose);border:1.5px solid var(--rose-border);}
+.s-num.teal{background:var(--teal-bg);color:var(--teal);border:1.5px solid var(--teal-border);}
+.s-num.plum{background:var(--plum-bg);color:var(--plum);border:1.5px solid var(--plum-border);}
+.s-body{padding-top:2px;flex:1;}
+.s-body p{font-size:0.9rem;line-height:1.72;color:#3A322A;margin:0;font-weight:300;}
+.s-body p strong{color:var(--text);font-weight:600;}
+
+/* Table */
+.dtable{
+  width:100%;border-collapse:collapse;
+  font-size:0.87rem;margin:18px 0;
+  border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;
+  background:var(--panel);
+}
+.dtable th{
+  background:#F3EEE8;padding:10px 14px;
+  text-align:left;font-size:0.67rem;
+  font-weight:700;letter-spacing:0.07em;
+  text-transform:uppercase;color:var(--text-mid);
+  border-bottom:1px solid var(--border);
+}
+.dtable td{
+  padding:10px 14px;border-bottom:1px solid var(--border);
+  color:#3A322A;vertical-align:top;line-height:1.55;font-weight:300;
+}
+.dtable tr:last-child td{border-bottom:none;}
+
+/* =============================================
+   WORKSHEET
+============================================= */
+.worksheet{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;margin-top:44px;
+}
+.ws-head{
+  padding:20px 24px;border-bottom:1px solid var(--border);
+  background:#F8F4EF;
+  display:flex;gap:14px;align-items:flex-start;
+}
+.ws-icon{font-size:1.4rem;flex-shrink:0;}
+.ws-head-text h4{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.12rem;font-weight:600;
+  color:var(--text);margin-bottom:3px;
+}
+.ws-head-text p{font-size:0.79rem;color:var(--text-light);line-height:1.5;margin:0;}
+
+/* Each step inside worksheet */
+.ws-step{
+  padding:22px 24px;border-bottom:1px solid var(--border);
+}
+.ws-step:last-child{border-bottom:none;}
+.ws-step-top{
+  display:flex;gap:12px;align-items:flex-start;
+  margin-bottom:14px;
+}
+.ws-n{
+  width:24px;height:24px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.68rem;font-weight:700;
+  flex-shrink:0;margin-top:2px;
+}
+.ws-n.rose{background:var(--rose-bg);color:var(--rose);border:1.5px solid var(--rose-border);}
+.ws-n.teal{background:var(--teal-bg);color:var(--teal);border:1.5px solid var(--teal-border);}
+.ws-n.plum{background:var(--plum-bg);color:var(--plum);border:1.5px solid var(--plum-border);}
+.ws-n.gold{background:var(--gold-bg);color:var(--gold);border:1.5px solid var(--gold-border);}
+.ws-q-block{}
+.ws-q{
+  font-size:0.93rem;font-weight:600;
+  color:var(--text);line-height:1.4;margin-bottom:4px;
+}
+.ws-why{
+  font-size:0.77rem;color:var(--text-light);
+  line-height:1.55;font-style:italic;font-weight:300;
+}
+
+/* inputs */
+textarea.inp,input[type=text].inp{
+  width:100%;background:var(--bg);
+  border:1.5px solid var(--border);
+  border-radius:10px;padding:11px 14px;
+  font-family:'Outfit',sans-serif;
+  font-size:0.9rem;color:var(--text);
+  outline:none;transition:border-color .2s,box-shadow .2s;
+  resize:vertical;font-weight:300;
+}
+textarea.inp{min-height:82px;}
+textarea.inp:focus,input.inp:focus{
+  border-color:var(--rose);
+  box-shadow:0 0 0 3px var(--rose-bg);
+}
+.ws-step.teal-step textarea.inp:focus,
+.ws-step.teal-step input.inp:focus{
+  border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-bg);
+}
+.ws-step.plum-step textarea.inp:focus,
+.ws-step.plum-step input.inp:focus{
+  border-color:var(--plum);box-shadow:0 0 0 3px var(--plum-bg);
+}
+
+/* slider */
+.sl-wrap{margin-top:4px;}
+.sl-row{display:flex;align-items:center;gap:12px;}
+.sl-inp{flex:1;accent-color:var(--rose);cursor:pointer;}
+.sl-val{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.4rem;font-weight:600;
+  color:var(--rose);min-width:26px;text-align:center;
+}
+.sl-labels{display:flex;justify-content:space-between;font-size:0.69rem;color:var(--text-light);margin-top:4px;}
+
+/* check items */
+.check-items{display:flex;flex-direction:column;gap:6px;}
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+@media(max-width:480px){.check-grid{grid-template-columns:1fr;}}
+.ci{
+  display:flex;align-items:flex-start;gap:10px;
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:8px;padding:9px 12px;cursor:pointer;
+  transition:border-color .15s,background .15s;
+}
+.ci:hover{border-color:var(--border-mid);}
+.ci.checked.rose-c{background:var(--rose-bg);border-color:var(--rose-border);}
+.ci.checked.teal-c{background:var(--teal-bg);border-color:var(--teal-border);}
+.ci.checked.plum-c{background:var(--plum-bg);border-color:var(--plum-border);}
+.ci input[type=checkbox]{
+  width:15px;height:15px;accent-color:var(--rose);
+  margin-top:2px;flex-shrink:0;cursor:pointer;
+}
+.ci label{font-size:0.85rem;color:var(--text);line-height:1.4;cursor:pointer;font-weight:400;}
+.ci label small{display:block;font-size:0.73rem;color:var(--text-light);margin-top:1px;font-weight:300;}
+
+/* inline tip */
+.ws-tip{
+  background:rgba(154,123,60,0.06);
+  border:1px solid rgba(154,123,60,0.18);
+  border-radius:8px;padding:10px 14px;
+  margin-top:11px;font-size:0.79rem;
+  color:var(--gold);line-height:1.55;
+}
+.ws-tip strong{font-weight:600;}
+
+/* ws footer */
+.ws-foot{
+  padding:18px 24px;background:#F8F4EF;
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;
+  justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.ws-save{
+  background:var(--rose);color:#fff;border:none;
+  border-radius:50px;padding:11px 26px;
+  font-family:'Outfit',sans-serif;
+  font-size:0.87rem;font-weight:500;cursor:pointer;
+  transition:all .2s;display:flex;align-items:center;gap:7px;
+}
+.ws-save:hover{background:#9A3D52;transform:translateY(-1px);}
+.ws-save.teal-btn{background:var(--teal);}
+.ws-save.teal-btn:hover{background:#2D6662;}
+.ws-save.plum-btn{background:var(--plum);}
+.ws-save.plum-btn:hover{background:#573D5D;}
+.ws-save.saved{background:#999;pointer-events:none;}
+.ws-foot-note{font-size:0.74rem;color:var(--text-light);line-height:1.4;max-width:200px;font-weight:300;}
+.ws-done{
+  display:none;width:100%;
+  background:var(--teal-bg);border:1px solid var(--teal-border);
+  border-radius:8px;padding:10px 16px;
+  font-size:0.83rem;color:var(--teal);font-weight:500;text-align:center;
+}
+.ws-done.show{display:block;}
+
+/* lesson footer */
+.l-foot{
+  margin-top:52px;padding-top:28px;
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;
+  justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+.comp-btn{
+  background:var(--text);color:#fff;border:none;
+  border-radius:50px;padding:12px 28px;
+  font-family:'Outfit',sans-serif;
+  font-size:0.9rem;font-weight:500;cursor:pointer;
+  transition:all .2s;display:flex;align-items:center;gap:8px;
+}
+.comp-btn:hover{background:var(--rose);}
+.comp-btn.done{background:var(--teal);pointer-events:none;}
+.next-btn{
+  background:transparent;color:var(--text-mid);
+  border:1.5px solid var(--border);border-radius:50px;
+  padding:12px 22px;font-family:'Outfit',sans-serif;
+  font-size:0.84rem;font-weight:400;cursor:pointer;
+  transition:all .2s;display:flex;align-items:center;gap:6px;
+}
+.next-btn:hover{border-color:var(--border-mid);color:var(--text);}
+
+/* =============================================
+   WELCOME SCREEN
+============================================= */
+.welcome{
+  max-width:680px;margin:52px auto;
+  padding:0 36px;
+  animation:fadeUp .35s ease;
+}
+.welcome h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,4.5vw,3rem);
+  font-weight:500;color:var(--text);
+  letter-spacing:-0.03em;
+  margin-bottom:14px;line-height:1.1;
+}
+.welcome h2 em{font-style:italic;color:var(--rose);}
+.welcome .w-intro{
+  font-family:'Crimson Pro',serif;
+  font-style:italic;font-size:1.05rem;
+  line-height:1.85;color:var(--text-mid);margin-bottom:32px;
+}
+.w-mods{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:12px;margin:28px 0;
+}
+@media(max-width:500px){.w-mods{grid-template-columns:1fr;}}
+.w-mod{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:14px;padding:18px;
+}
+.w-mod .wm-icon{font-size:1.4rem;margin-bottom:8px;}
+.w-mod h4{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.98rem;font-weight:600;margin-bottom:5px;
+}
+.w-mod p{font-size:0.78rem;color:var(--text-light);line-height:1.5;margin:0;font-weight:300;}
+.w-mod.active-m{border-color:var(--rose-border);background:var(--rose-bg);}
+.w-mod.active-m h4{color:var(--rose);}
+.w-theories{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:12px;padding:18px 20px;margin:20px 0;
+}
+.w-theories p{font-size:0.8rem;color:var(--text-mid);margin:0;line-height:1.6;font-weight:300;}
+.w-theories p strong{color:var(--text);font-weight:600;}
+.w-start{
+  background:var(--text);color:#fff;border:none;
+  border-radius:50px;padding:14px 34px;
+  font-family:'Outfit',sans-serif;
+  font-size:0.95rem;font-weight:500;cursor:pointer;
+  transition:all .2s;display:inline-flex;align-items:center;gap:8px;
+}
+.w-start:hover{background:var(--rose);}
+.w-note{font-size:0.73rem;color:var(--text-light);margin-top:12px;font-weight:300;}
+
+/* mobile overlay */
+.overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.35);z-index:150;
+}
+.overlay.show{display:block;}
+
+/* =============================================
+   RESPONSIVE
+============================================= */
+@media(max-width:780px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0;}
+  .topbar{padding:0 16px;}
+  .hamburger{display:flex;}
+  .lview{padding:24px 18px 60px;}
+  .ws-foot{flex-direction:column;align-items:stretch;}
+  .ws-save{justify-content:center;}
+  .l-foot{flex-direction:column;align-items:stretch;}
+  .comp-btn,.next-btn{justify-content:center;}
+  .welcome{padding:0 18px;margin:32px auto;}
+  .w-mods{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- ======================== SIDEBAR ======================== -->
+<aside class="sidebar" id="sidebar">
+  <div class="s-logo">
+    <div class="wordmark"><em>Close</em></div>
+    <p>A course on emotional connection</p>
+  </div>
+  <div class="s-progress">
+    <div class="s-prog-label">
+      <span>Progress</span>
+      <span id="progText">0 / 9 lessons</span>
+    </div>
+    <div class="s-prog-track"><div class="s-prog-fill" id="progFill"></div></div>
+  </div>
+  <nav class="s-nav">
+    <div class="mod-label">Start Here</div>
+    <div class="n-item active" id="nav-home" onclick="go('home')">
+      <div class="n-dot lit" id="dot-home">✦</div>
+      <div class="n-text">
+        <div class="n-num">Intro</div>
+        <div class="n-name">Welcome</div>
+      </div>
+    </div>
+
+    <div class="mod-label" style="margin-top:8px;">💔 Module 1 — Why Connection Is Hard</div>
+    <div class="n-item" id="nav-L1" onclick="go('L1')">
+      <div class="n-dot lit" id="dot-L1">1.1</div>
+      <div class="n-text"><div class="n-num">Lesson 1.1</div><div class="n-name">Your Attachment Style</div></div>
+    </div>
+    <div class="n-item" id="nav-L2" onclick="go('L2')">
+      <div class="n-dot lit" id="dot-L2">1.2</div>
+      <div class="n-text"><div class="n-num">Lesson 1.2</div><div class="n-name">The Walls We Build</div></div>
+    </div>
+    <div class="n-item" id="nav-L3" onclick="go('L3')">
+      <div class="n-dot lit" id="dot-L3">1.3</div>
+      <div class="n-text"><div class="n-num">Lesson 1.3</div><div class="n-name">Vulnerability: The Door In</div></div>
+    </div>
+
+    <div class="mod-label" style="margin-top:8px;">🤝 Module 2 — Daily Connection Skills</div>
+    <div class="n-item" id="nav-L4" onclick="go('L4')">
+      <div class="n-dot" id="dot-L4">2.1</div>
+      <div class="n-text"><div class="n-num">Lesson 2.1</div><div class="n-name">Bids for Connection</div></div>
+    </div>
+    <div class="n-item" id="nav-L5" onclick="go('L5')">
+      <div class="n-dot" id="dot-L5">2.2</div>
+      <div class="n-text"><div class="n-num">Lesson 2.2</div><div class="n-name">How to Actually Listen</div></div>
+    </div>
+    <div class="n-item" id="nav-L6" onclick="go('L6')">
+      <div class="n-dot" id="dot-L6">2.3</div>
+      <div class="n-text"><div class="n-num">Lesson 2.3</div><div class="n-name">The Emotional Bank Account</div></div>
+    </div>
+
+    <div class="mod-label" style="margin-top:8px;">🔥 Module 3 — When Things Go Wrong</div>
+    <div class="n-item" id="nav-L7" onclick="go('L7')">
+      <div class="n-dot" id="dot-L7">3.1</div>
+      <div class="n-text"><div class="n-num">Lesson 3.1</div><div class="n-name">4 Things That Kill Connection</div></div>
+    </div>
+    <div class="n-item" id="nav-L8" onclick="go('L8')">
+      <div class="n-dot" id="dot-L8">3.2</div>
+      <div class="n-text"><div class="n-num">Lesson 3.2</div><div class="n-name">How to Say What You Mean</div></div>
+    </div>
+    <div class="n-item" id="nav-L9" onclick="go('L9')">
+      <div class="n-dot" id="dot-L9">3.3</div>
+      <div class="n-text"><div class="n-num">Lesson 3.3</div><div class="n-name">Repair: Coming Back Together</div></div>
+    </div>
+  </nav>
+</aside>
+
+<!-- ======================== MAIN ======================== -->
+<div class="main">
+  <div class="topbar">
+    <button class="hamburger" onclick="toggleSidebar()">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="tb-title" id="tbTitle">Welcome to Close</div>
+    <div class="topbar-actions">
+      <span class="tb-badge intro" id="tbBadge">Intro</span>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       WELCOME
+  ============================================================ -->
+  <div class="welcome" id="view-home">
+    <h2>Learning to be <em>truly close</em> to another person</h2>
+    <p class="w-intro">Real emotional connection doesn't just happen. It's built — through understanding yourself, showing up differently, and learning skills that most of us were never taught. This course gives you those skills in plain, honest language.</p>
+    <div class="w-mods">
+      <div class="w-mod active-m">
+        <div class="wm-icon">💔</div>
+        <h4>Why It's Hard</h4>
+        <p>Your past, your walls, and what vulnerability really means</p>
+      </div>
+      <div class="w-mod active-m">
+        <div class="wm-icon">🤝</div>
+        <h4>Daily Skills</h4>
+        <p>The small, everyday things that build closeness over time</p>
+      </div>
+      <div class="w-mod active-m">
+        <div class="wm-icon">🔥</div>
+        <h4>When It Breaks</h4>
+        <p>How to fight without destroying, and find your way back</p>
+      </div>
+    </div>
+    <div class="w-theories">
+      <p><strong>What this course is built on:</strong> The research and ideas here come from four bodies of work that hold up best in real life — <strong>Attachment Theory</strong> (why we connect the way we do), <strong>Gottman's relationship research</strong> (the most data-backed work on what builds and kills closeness), <strong>Brené Brown's work on vulnerability and shame</strong>, and <strong>Nonviolent Communication</strong> (how to speak so people can actually hear you). No jargon. No complicated words. Just what works.</p>
+    </div>
+    <button class="w-start" onclick="go('L1')">Start with Lesson 1.1 →</button>
+    <div class="w-note">All worksheets are private — nothing leaves your browser. Free. No account needed.</div>
+  </div>
+
+  <!-- ============================================================
+       L1: ATTACHMENT STYLES
+  ============================================================ -->
+  <div class="lview hidden" id="view-L1">
+    <h2>Your Attachment Style</h2>
+    <p class="intro-line">How you learned to connect — or not connect — as a child is still running in the background of every relationship you have today. Understanding it is the first step to changing it.</p>
+    <div class="obj-bar">
+      <div class="obj-icon">🎯</div>
+      <div>
+        <div class="obj-chips-label">In this lesson</div>
+        <div class="obj-chips">
+          <span class="obj-chip">What attachment theory is</span>
+          <span class="obj-chip">The 4 attachment styles</span>
+          <span class="obj-chip">Identify your own style</span>
+          <span class="obj-chip">How it shows up today</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Why your childhood still matters</h3>
+    <p>When you were a baby, you had one job: figure out if the people around you were safe and available. Your brain learned to answer this question fast, based on what actually happened — not what anyone meant to teach you. That learning became your <strong>attachment pattern</strong> — a kind of template for how relationships work, what you can expect from others, and how much you can trust people with your real feelings.</p>
+    <p>You didn't choose your attachment style. It formed before you could think about it. But once you can see it, you can start to work with it instead of being run by it.</p>
+
+    <div class="callout rose">
+      <div class="co-icon">💡</div>
+      <div class="co-body">
+        <div class="co-label">The core question</div>
+        <p>Every attachment style is basically an answer to this question: <em>"When I need someone, will they be there for me?"</em> Your brain answered that question in childhood — and keeps answering it in every relationship since.</p>
+      </div>
+    </div>
+
+    <h3>The four attachment styles — in plain English</h3>
+    <div class="card-grid">
+      <div class="s-card">
+        <div class="sk" style="color:var(--teal)">🌱</div>
+        <h5>Secure</h5>
+        <p>You generally feel okay asking for help. You trust people aren't about to abandon you. Closeness feels good, not scary. You can handle conflict without it feeling catastrophic. <em>~50% of people.</em></p>
+      </div>
+      <div class="s-card">
+        <div class="sk" style="color:var(--rose)">🌊</div>
+        <h5>Anxious / Preoccupied</h5>
+        <p>You want closeness badly, but worry it'll be taken away. You can feel clingy or "too much." Silence feels like rejection. You read into things. You need frequent reassurance.</p>
+      </div>
+      <div class="s-card">
+        <div class="sk" style="color:var(--plum)">🧱</div>
+        <h5>Avoidant / Dismissive</h5>
+        <p>You value independence and feel uncomfortable when things get too close. You tend to pull back when others want more. You handle things alone. Emotional conversations feel exhausting or pointless.</p>
+      </div>
+      <div class="s-card">
+        <div class="sk" style="color:var(--gold)">⚡</div>
+        <h5>Disorganized / Fearful</h5>
+        <p>You want connection AND fear it at the same time. Close relationships feel both needed and dangerous. You may feel chaotic in relationships — swinging between closeness and shutting down.</p>
+      </div>
+    </div>
+
+    <div class="callout gold">
+      <div class="co-icon">🔑</div>
+      <div class="co-body">
+        <div class="co-label">This is not your destiny</div>
+        <p>Attachment styles are not fixed. Research clearly shows they can change — especially through safe relationships (including therapy) and through understanding your own patterns. Knowing your style is already changing it, because you can start to make choices instead of just reacting.</p>
+      </div>
+    </div>
+
+    <h3>How each style shows up in real life</h3>
+    <table class="dtable">
+      <tr><th>Style</th><th>When you feel threatened in a relationship</th><th>What you tend to do</th></tr>
+      <tr><td><strong>Anxious</strong></td><td>Partner seems distant or preoccupied</td><td>Text repeatedly, seek reassurance, become upset, interpret neutral things as negative</td></tr>
+      <tr><td><strong>Avoidant</strong></td><td>Partner wants more closeness or vulnerability</td><td>Pull away, get busy, go emotionally flat, feel suffocated, change the subject</td></tr>
+      <tr><td><strong>Disorganized</strong></td><td>Any intense emotional moment</td><td>Oscillate — sometimes push away, sometimes cling; feel overwhelmed and confused</td></tr>
+      <tr><td><strong>Secure</strong></td><td>Most things feel manageable</td><td>Talk about it; can self-soothe; trusts the relationship can survive difficulty</td></tr>
+    </table>
+
+    <div class="worksheet">
+      <div class="ws-head">
+        <div class="ws-icon">🪞</div>
+        <div class="ws-head-text">
+          <h4>Worksheet 1.1 — Finding Your Pattern</h4>
+          <p>This isn't a diagnosis — it's a mirror. Answer honestly, not how you wish things were. Your current pattern is where change begins.</p>
+        </div>
+      </div>
+      <div>
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n rose">1</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Which attachment style description felt most like you? Or was it a mix?</div>
+              <div class="ws-why">Don't overthink it. Go with your gut — what resonated, even if it was uncomfortable to recognize?</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'Mostly anxious — I definitely over-read things and need a lot of reassurance. But some avoidant too when I feel really hurt.'"></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n rose">2</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Think about a close relationship right now. When that person seems distant or "off," what happens inside you?</div>
+              <div class="ws-why">This is attachment in action. Your automatic response to perceived disconnection reveals your style more than any quiz.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'I immediately assume I did something wrong. I get anxious and start checking my phone. Or I just go cold and stop trying.'"></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n rose">3</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Where do you think this came from? What was closeness and emotional safety like growing up?</div>
+              <div class="ws-why">You don't need a dramatic backstory. Even subtle patterns — a parent who was inconsistently available, or one who pushed you to be self-sufficient — shape attachment.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'My mom was loving but unpredictable. I never knew if she'd be warm or withdrawn. I learned to watch her mood constantly.'"></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n rose">4</div>
+            <div class="ws-q-block">
+              <div class="ws-q">What is one way your attachment pattern has caused you to push someone away — or hold on too tight?</div>
+              <div class="ws-why">Be honest. This is the cost of the pattern — seeing it concretely makes the motivation for change real.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'I get so scared of being abandoned that I become demanding — and that ends up driving people away, which confirms my fear.'"></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n rose">5</div>
+            <div class="ws-q-block">
+              <div class="ws-q">What would "more secure" look like for you, in your own words?</div>
+              <div class="ws-why">You're not trying to become a different person. You're asking: what would I do differently in those moments if I felt safer inside myself?</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'I could let a few hours of silence pass without assuming the worst. I could ask directly instead of getting passive-aggressive.'"></textarea>
+          <div class="ws-tip"><strong>Keep this answer.</strong> It's the direction this whole course is pointing toward.</div>
+        </div>
+      </div>
+      <div class="ws-foot">
+        <div class="ws-foot-note">Your answers are private — they never leave your device.</div>
+        <button class="ws-save" onclick="saveWS(this,'done-L1')">Save worksheet ✓</button>
+      </div>
+      <div class="ws-done" id="done-L1">✓ Saved. Understanding your pattern is not small work. This is the foundation. 🌱</div>
+    </div>
+
+    <div class="l-foot">
+      <button class="comp-btn" id="cb-L1" onclick="completeL('L1',this)">Mark lesson complete ✓</button>
+      <button class="next-btn" onclick="go('L2')">Next: The Walls We Build →</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       L2: THE WALLS WE BUILD
+  ============================================================ -->
+  <div class="lview hidden" id="view-L2">
+    <h2>The Walls We Build</h2>
+    <p class="intro-line">Everyone who has been hurt has developed ways to protect themselves. These protections made sense once. Understanding why you built your walls is the first step to choosing when to lower them.</p>
+    <div class="obj-bar">
+      <div class="obj-icon">🎯</div>
+      <div>
+        <div class="obj-chips-label">In this lesson</div>
+        <div class="obj-chips">
+          <span class="obj-chip">Why we protect ourselves</span>
+          <span class="obj-chip">Common emotional walls</span>
+          <span class="obj-chip">The cost of staying protected</span>
+          <span class="obj-chip">Mapping your own walls</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Protection that made sense once</h3>
+    <p>Every wall you've built around your heart was built for a reason. At some point, being open got you hurt. So you learned: <em>don't need too much, don't show your real feelings, keep a part of yourself back, be self-sufficient, be funny, be busy, be perfect — anything but be vulnerable and exposed again.</em></p>
+    <p>These were smart adaptations. The problem is that walls don't just keep out pain — they keep out connection too. <strong>The same wall that protected you from being hurt also keeps you from being truly seen.</strong> And being seen is, at its core, what connection actually is.</p>
+
+    <div class="pull-q">
+      <p>"You cannot selectively numb emotion. When we numb the dark, we numb the light too."</p>
+      <cite>— Brené Brown, researcher on vulnerability and connection</cite>
+    </div>
+
+    <h3>Common ways we wall off</h3>
+    <div class="card-grid">
+      <div class="s-card">
+        <div class="sk" style="color:var(--rose)">🎭</div>
+        <h5>Performing instead of being</h5>
+        <p>Showing only your best, most polished self. Using humor to deflect. Being endlessly capable. Performing competence so no one sees the fear underneath.</p>
+      </div>
+      <div class="s-card">
+        <div class="sk" style="color:var(--rose)">🏃</div>
+        <h5>Staying busy</h5>
+        <p>Filling every moment so there's no space to feel. Workaholism, overcommitting, always having a project. Busyness as armor against sitting with what's really there.</p>
+      </div>
+      <div class="s-card">
+        <div class="sk" style="color:var(--plum)">🧠</div>
+        <h5>Living in your head</h5>
+        <p>Intellectualizing everything. Analyzing feelings instead of feeling them. Turning emotional conversations into debates. Using smarts to avoid being moved.</p>
+      </div>
+      <div class="s-card">
+        <div class="sk" style="color:var(--plum)">😶</div>
+        <h5>Going emotionally flat</h5>
+        <p>Shutting down when things get intense. Becoming distant, unavailable, checked out. "I'm fine." Stonewalling as a way of disappearing from threatening closeness.</p>
+      </div>
+      <div class="s-card">
+        <div class="sk" style="color:var(--gold)">⚔️</div>
+        <h5>Staying angry</h5>
+        <p>Anger is the one "strong" emotion. Under anger is almost always fear, sadness, or hurt — but those feel more vulnerable. Staying mad feels safer than admitting you're scared.</p>
+      </div>
+      <div class="s-card">
+        <div class="sk" style="color:var(--gold)">🫥</div>
+        <h5>Disappearing into others</h5>
+        <p>Focusing entirely on someone else's needs so you never have to reveal your own. Being the helper, the fixer, the one who holds everyone else together — but never asks for anything.</p>
+      </div>
+    </div>
+
+    <div class="callout teal">
+      <div class="co-icon">💚</div>
+      <div class="co-body">
+        <div class="co-label">This is not about tearing down all your walls</div>
+        <p>You get to choose who is safe enough to let in, and when. The goal isn't raw, constant openness with everyone — that's not healthy either. It's about having the <em>choice</em> to lower the wall, rather than the wall running you automatically.</p>
+      </div>
+    </div>
+
+    <div class="worksheet">
+      <div class="ws-head">
+        <div class="ws-icon">🧱</div>
+        <div class="ws-head-text">
+          <h4>Worksheet 1.2 — Your Walls</h4>
+          <p>Looking honestly at your own protective patterns — without judgment, just curiosity.</p>
+        </div>
+      </div>
+      <div>
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n rose">1</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Which of the walls above felt most familiar? Select all that apply.</div>
+              <div class="ws-why">Most people use a few of these. Recognizing your go-to patterns is what this step is about.</div>
+            </div>
+          </div>
+          <div class="check-grid">
+            <div class="ci rose-c" onclick="toggleCI(this)"><input type="checkbox"><label>Performing / not showing the real me<small>Humor, competence, always "fine"</small></label></div>
+            <div class="ci rose-c" onclick="toggleCI(this)"><input type="checkbox"><label>Staying busy / never stopping<small>No space to feel anything real</small></label></div>
+            <div class="ci rose-c" onclick="toggleCI(this)"><input type="checkbox"><label>Living in my head<small>Analyzing instead of feeling</small></label></div>
+            <div class="ci rose-c" onclick="toggleCI(this)"><input type="checkbox"><label>Going emotionally flat / shutting down<small>"I'm fine." Disappearing.</small></label></div>
+            <div class="ci rose-c" onclick="toggleCI(this)"><input type="checkbox"><label>Staying angry / defensive<small>Easier than showing the fear underneath</small></label></div>
+            <div class="ci rose-c" onclick="toggleCI(this)"><input type="checkbox"><label>Disappearing into other people's needs<small>Helping so I never have to ask</small></label></div>
+          </div>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n rose">2</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Pick your biggest wall and trace it back — when did it start? What was it protecting you from?</div>
+              <div class="ws-why">Walls don't appear from nowhere. They were built in response to something real. Understanding the original threat makes the wall make sense — and softens the shame about having it.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'I learned to be funny and deflect when my parents fought — if I made everyone laugh, the tension broke and I was safe. I still do it anytime things get heavy.'"></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n rose">3</div>
+            <div class="ws-q-block">
+              <div class="ws-q">What has this wall cost you in connection? Be specific — a relationship, a moment, a conversation that could have been real but wasn't.</div>
+              <div class="ws-why">The cost of staying protected is usually a kind of loneliness — being surrounded by people but not really known by any of them. Naming the specific cost makes it real.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'My partner said they felt like they didn't really know me after 3 years. That hit hard. I keep everyone at a certain distance — even people I love.'"></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n rose">4</div>
+            <div class="ws-q-block">
+              <div class="ws-q">What would you have to believe about a person to feel safe enough to lower that wall with them?</div>
+              <div class="ws-why">This reveals what you actually need in order to trust — your version of "safety." It's not asking you to lower the wall now. It's asking what would need to be true first.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'I'd need to know they wouldn't use it against me. That they could hear something hard without running away or fixing it. That they genuinely wanted to know me, not just a version of me.'"></textarea>
+        </div>
+      </div>
+      <div class="ws-foot">
+        <div class="ws-foot-note">Take your time with this one. There's no rush.</div>
+        <button class="ws-save" onclick="saveWS(this,'done-L2')">Save worksheet ✓</button>
+      </div>
+      <div class="ws-done" id="done-L2">✓ Saved. Seeing your walls clearly is how you begin to have a choice about them. 🧱→🌱</div>
+    </div>
+
+    <div class="l-foot">
+      <button class="comp-btn" id="cb-L2" onclick="completeL('L2',this)">Mark lesson complete ✓</button>
+      <button class="next-btn" onclick="go('L3')">Next: Vulnerability →</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       L3: VULNERABILITY
+  ============================================================ -->
+  <div class="lview hidden" id="view-L3">
+    <h2>Vulnerability: The Door In</h2>
+    <p class="intro-line">Every deep connection you've ever had required someone to go first — to say something real, to admit something hard, to be seen as a full human being rather than a curated version of one. That's vulnerability. And it is not weakness.</p>
+    <div class="obj-bar">
+      <div class="obj-icon">🎯</div>
+      <div>
+        <div class="obj-chips-label">In this lesson</div>
+        <div class="obj-chips">
+          <span class="obj-chip">What vulnerability actually is</span>
+          <span class="obj-chip">Why it feels so dangerous</span>
+          <span class="obj-chip">Shame vs. guilt</span>
+          <span class="obj-chip">Small steps to being more real</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>What vulnerability actually is</h3>
+    <p>Brené Brown spent over 20 years studying human connection and found something striking: <strong>the people with the deepest, most satisfying connections had one thing in common — they were willing to be seen.</strong> Not perfectly. Not constantly. But genuinely. They let people know what they actually felt, what they were struggling with, what they needed.</p>
+    <p>Vulnerability is not about oversharing with everyone. It's not about being fragile. It's about letting the people who matter to you see the real version — including the scared, uncertain, imperfect parts.</p>
+
+    <div class="callout rose">
+      <div class="co-icon">❤️</div>
+      <div class="co-body">
+        <div class="co-label">The connection equation</div>
+        <p>Connection requires being <em>known.</em> To be known, you have to let someone <em>see</em> you. To be seen, you have to show something <em>real.</em> There is no shortcut through this — you cannot connect through a mask, no matter how appealing the mask is.</p>
+      </div>
+    </div>
+
+    <h3>Why it feels so dangerous</h3>
+    <p>Vulnerability feels dangerous for a very simple reason: <strong>it hands another person the power to hurt you.</strong> If you never show what you care about, no one can use it against you. If you never admit you're scared, no one can dismiss your fear. The armor makes logical sense.</p>
+    <p>But here's the problem: <em>the armor that protects you from being hurt also prevents you from being loved.</em> You can't be loved for something you're hiding. The parts of yourself you're most ashamed of — your neediness, your insecurity, your failures — are often the exact parts that other people most need to see, because they feel those things too.</p>
+
+    <h3>Shame: the enemy of connection</h3>
+    <p>Shame is the feeling that <em>I</em> am the problem — not just what I did, but who I am. It says: <em>if people really knew me, they'd leave.</em> Shame is what makes vulnerability feel impossible. Because if showing yourself leads to rejection, it confirms your worst fear: that you are fundamentally unacceptable.</p>
+    <p>Guilt is different — guilt says <em>I did something bad.</em> Shame says <em>I am bad.</em> Guilt can motivate repair. Shame almost always drives hiding — and hiding is the death of connection.</p>
+
+    <div class="callout gold">
+      <div class="co-icon">🔦</div>
+      <div class="co-body">
+        <div class="co-label">Shame's antidote</div>
+        <p>Shame cannot survive being spoken. Research consistently shows that sharing something you feel ashamed of with a safe, empathic person dramatically reduces its power over you. The thing that feels most unacceptable is almost always the thing that creates the deepest connection when shared.</p>
+      </div>
+    </div>
+
+    <h3>Small steps — vulnerability doesn't have to be dramatic</h3>
+    <p>Being vulnerable doesn't mean confessing everything at once or having constant deep conversations. It's built in small moments: saying <em>"I'm nervous about this"</em> instead of pretending you're not. Admitting you miss someone. Saying <em>"that hurt me"</em> instead of going cold. Asking for what you need. Saying <em>"I don't know."</em> Saying <em>"I was wrong."</em></p>
+    <p>These small moments of realness accumulate. They're the building blocks of real closeness.</p>
+
+    <div class="worksheet">
+      <div class="ws-head">
+        <div class="ws-icon">🚪</div>
+        <div class="ws-head-text">
+          <h4>Worksheet 1.3 — Opening the Door</h4>
+          <p>Practicing vulnerability starts with noticing where you close down — and what small, real step might look like instead.</p>
+        </div>
+      </div>
+      <div>
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n rose">1</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Think of a recent moment when you felt something real but showed something else. What were you actually feeling?</div>
+              <div class="ws-why">This is the gap between your public face and your inner experience. It's where the hiding lives — and where the potential for connection is.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'I was scared I'd made a mistake but I laughed it off.' Or 'I was hurt and said I was fine.' What was real? What did you show instead?"></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n rose">2</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Is there something you carry that feels like "if they really knew this about me, they might not want to know me"?</div>
+              <div class="ws-why">You don't have to share it with anyone — not yet. Just naming it here matters. Shame grows in silence and isolation. Even writing it down is breaking that pattern slightly.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="Take your time. You can be vague if that feels safer. Even: 'I feel like I'm not as together as people think I am.'"></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n rose">3</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Is there someone in your life right now who feels safe enough to show something a little more real to?</div>
+              <div class="ws-why">Vulnerability doesn't require the perfect person or the perfect moment. It requires someone who is safe enough — not perfect. Who comes to mind?</div>
+            </div>
+          </div>
+          <input class="inp" type="text" placeholder="Just a name — or a description of who they are to you.">
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n rose">4</div>
+            <div class="ws-q-block">
+              <div class="ws-q">What is one small, real thing you could say or show to that person this week — something truer than what you'd normally say?</div>
+              <div class="ws-why">Small and real beats dramatic and performative every time. A tiny moment of genuine honesty does more for connection than a big emotional speech.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'I could tell them I've been struggling lately instead of saying everything's fine.' Or 'I could admit I miss them.' Something real. Something small."></textarea>
+          <div class="ws-tip"><strong>Homework:</strong> Do the one small real thing you wrote in Step 4 before you move on to Module 2. Notice what happens — in them, and in you.</div>
+        </div>
+      </div>
+      <div class="ws-foot">
+        <div class="ws-foot-note">Being seen is how we stop being alone inside ourselves.</div>
+        <button class="ws-save" onclick="saveWS(this,'done-L3')">Save worksheet ✓</button>
+      </div>
+      <div class="ws-done" id="done-L3">✓ Saved. The door to connection is vulnerability — and you're already looking at it. 🚪</div>
+    </div>
+
+    <div class="l-foot">
+      <button class="comp-btn" id="cb-L3" onclick="completeL('L3',this)">Mark lesson complete ✓</button>
+      <button class="next-btn" onclick="go('L4')">Start Module 2: Bids for Connection →</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       L4: BIDS FOR CONNECTION
+  ============================================================ -->
+  <div class="lview hidden" id="view-L4">
+    <h2>Bids for Connection</h2>
+    <p class="intro-line">Gottman's research found that relationships live or die in tiny, almost invisible moments — not in big dramatic fights. Learning to see these moments changes everything.</p>
+    <div class="obj-bar">
+      <div class="obj-icon">🎯</div>
+      <div>
+        <div class="obj-chips-label">In this lesson</div>
+        <div class="obj-chips">
+          <span class="obj-chip">What a "bid" is</span>
+          <span class="obj-chip">Turning toward vs. away</span>
+          <span class="obj-chip">Why missing bids is costly</span>
+          <span class="obj-chip">How to bid and respond better</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>The tiny moments that define a relationship</h3>
+    <p>Dr. John Gottman and his team spent decades watching couples in a research apartment — a place they called "the love lab" — and tracking thousands of small interactions. What they found surprised everyone: <strong>the health of a relationship could be predicted not by how couples handled big conflicts, but by how they handled small, ordinary, easy-to-miss moments.</strong></p>
+    <p>They called these moments <strong>bids for connection.</strong> A bid is any attempt — however small — to get attention, affirmation, connection, or engagement from another person. And your response to those bids is the heartbeat of the relationship.</p>
+
+    <div class="def-box">
+      <div class="def-head">What a bid looks like</div>
+      <div class="def-body">
+        <p>A bid can be a comment: <em>"Look at that sunset."</em> A question: <em>"How was your day?"</em> A touch on the shoulder. Showing you something funny. Saying <em>"I had a weird thing happen today."</em> A sigh. Making eye contact. These are all bids — tiny invitations to connect. Most of them happen so naturally you don't even notice them.</p>
+      </div>
+    </div>
+
+    <h3>Three ways to respond to a bid</h3>
+    <div class="card-grid">
+      <div class="s-card" style="border-color:var(--teal-border);">
+        <div class="sk" style="color:var(--teal)">↗️</div>
+        <h5>Turning TOWARD</h5>
+        <p>You acknowledge the bid. You respond, even briefly. You look up from your phone. You say "yeah?" or "tell me more." You show you noticed. <em>This is what builds connection — not grand gestures.</em></p>
+      </div>
+      <div class="s-card" style="border-color:var(--rose-border);">
+        <div class="sk" style="color:var(--rose)">↘️</div>
+        <h5>Turning AWAY</h5>
+        <p>You ignore the bid. You keep scrolling. You give a one-word response without looking up. You don't notice. <em>The person learns their bids don't land — and over time, they stop making them.</em></p>
+      </div>
+      <div class="s-card" style="border-color:var(--gold-border);">
+        <div class="sk" style="color:var(--gold)">↙️</div>
+        <h5>Turning AGAINST</h5>
+        <p>You respond with irritation, dismissal, or contempt. <em>"You always interrupt me."</em> The person doesn't just feel ignored — they feel punished for reaching out. This is the most damaging response.</p>
+      </div>
+    </div>
+
+    <div class="callout teal">
+      <div class="co-icon">📊</div>
+      <div class="co-body">
+        <div class="co-label">What the research found</div>
+        <p>In couples who were still together and happy 6 years later, partners turned toward each other's bids <strong>86% of the time</strong>. In couples who had separated, it was <strong>33%</strong>. The difference between a thriving relationship and a dying one often isn't dramatic — it's the slow accumulation of missed small moments.</p>
+      </div>
+    </div>
+
+    <h3>This applies to all relationships</h3>
+    <p>Bids don't just happen in romantic relationships — they happen with friends, family members, colleagues, children. The principle is the same: when someone reaches toward you with even the smallest gesture of connection, what you do in that moment matters more than you think.</p>
+
+    <div class="worksheet">
+      <div class="ws-head">
+        <div class="ws-icon">📡</div>
+        <div class="ws-head-text">
+          <h4>Worksheet 2.1 — Noticing Bids</h4>
+          <p>Most people have never consciously tracked bids before. This worksheet trains your attention on what's already happening in your relationships every day.</p>
+        </div>
+      </div>
+      <div>
+        <div class="ws-step teal-step">
+          <div class="ws-step-top">
+            <div class="ws-n teal">1</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Think about someone you're close to. What bids do they typically make toward you — and do you tend to notice them?</div>
+              <div class="ws-why">Bids are easy to miss because they're small and ordinary. Start with someone you know well — what does their reaching-out typically look like?</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'My partner often says "come look at this" when they're on their phone. I usually say "just a minute" and sometimes never look. I didn't realize that was a bid.'"></textarea>
+        </div>
+
+        <div class="ws-step teal-step">
+          <div class="ws-step-top">
+            <div class="ws-n teal">2</div>
+            <div class="ws-q-block">
+              <div class="ws-q">When do you most often turn away? What are you usually doing — and what gets in the way of responding?</div>
+              <div class="ws-why">Turning away is rarely malicious — it's usually distraction, tiredness, or being absorbed in something else. Understanding your specific pattern helps you catch it.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'Usually when I'm on my phone in the evenings. Or when I'm tired after work — I just don't have capacity and I go flat.'"></textarea>
+        </div>
+
+        <div class="ws-step teal-step">
+          <div class="ws-step-top">
+            <div class="ws-n teal">3</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Think about a bid you made recently that didn't get a response. How did that feel?</div>
+              <div class="ws-why">This puts you on the receiving end — which builds empathy for what the people in your life feel when their bids are missed. Missed bids feel like rejection, even when no rejection was intended.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'I was excited about something and started to tell them, and they were clearly distracted. I just trailed off. I felt stupid for bringing it up.'"></textarea>
+        </div>
+
+        <div class="ws-step teal-step">
+          <div class="ws-step-top">
+            <div class="ws-n teal">4</div>
+            <div class="ws-q-block">
+              <div class="ws-q">For the next 3 days: track bids and responses. Notice one moment each day where you turn toward, and one where you turn away. Write what happened.</div>
+              <div class="ws-why">Noticing is the skill. You can't change something you can't see. Three days of paying attention will permanently change how you experience small interactions.</div>
+            </div>
+          </div>
+          <textarea class="inp" style="min-height:110px;" placeholder="Day 1 — Turned toward: ________________  Turned away: ________________&#10;Day 2 — Turned toward: ________________  Turned away: ________________&#10;Day 3 — Turned toward: ________________  Turned away: ________________"></textarea>
+          <div class="ws-tip"><strong>One small change:</strong> Pick one regular moment each day — dinner, a commute, before bed — where you commit to putting down your phone and turning toward bids completely for 20 minutes. Gottman calls this "stress-reducing conversation." It is extraordinarily powerful in its simplicity.</div>
+        </div>
+      </div>
+      <div class="ws-foot">
+        <div class="ws-foot-note">Fill in Day 1–3 as you go this week.</div>
+        <button class="ws-save teal-btn" onclick="saveWS(this,'done-L4')">Save worksheet ✓</button>
+      </div>
+      <div class="ws-done" id="done-L4">✓ Saved. Attention is love — and you're learning to direct it consciously. 📡</div>
+    </div>
+
+    <div class="l-foot">
+      <button class="comp-btn" id="cb-L4" onclick="completeL('L4',this)">Mark lesson complete ✓</button>
+      <button class="next-btn" onclick="go('L5')">Next: How to Actually Listen →</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       L5: HOW TO ACTUALLY LISTEN
+  ============================================================ -->
+  <div class="lview hidden" id="view-L5">
+    <h2>How to Actually Listen</h2>
+    <p class="intro-line">Most of us were never taught how to listen. We were taught how to respond, how to fix, how to advise. Real listening — the kind that makes someone feel truly heard — is different, and it is the single most powerful connection skill there is.</p>
+    <div class="obj-bar">
+      <div class="obj-icon">🎯</div>
+      <div>
+        <div class="obj-chips-label">In this lesson</div>
+        <div class="obj-chips">
+          <span class="obj-chip">What "being heard" actually feels like</span>
+          <span class="obj-chip">What gets in the way</span>
+          <span class="obj-chip">The WAIT skill</span>
+          <span class="obj-chip">Validating without agreeing</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>What people actually need when they talk to you</h3>
+    <p>When someone shares something hard with you, most of us jump to <em>fixing, advising, reassuring, or relating</em> — we tell them what to do, tell them it'll be okay, or start talking about a time we felt the same. These responses come from a good place. But research on what makes people feel heard suggests they often miss the mark.</p>
+    <p>What people most need — before any advice or reassurance — is to feel that <strong>their experience makes sense, that you understand what it's like to be them right now, and that you're not going anywhere.</strong> That feeling — being truly understood — is itself healing. Most people don't need you to solve their problem. They need you to see it with them.</p>
+
+    <div class="pull-q">
+      <p>"The most basic and powerful way to connect to another person is to listen. Just listen. Perhaps the most important thing we ever give each other is our attention."</p>
+      <cite>— Rachel Naomi Remen, physician and author</cite>
+    </div>
+
+    <h3>What gets in the way of listening</h3>
+    <div class="steps">
+      <div class="step-row">
+        <div class="s-num teal">1</div>
+        <div class="s-body"><p><strong>Preparing your response while they're still talking.</strong> Your brain is writing your next sentence instead of taking in theirs. The advice you're planning is listening's biggest enemy.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="s-num teal">2</div>
+        <div class="s-body"><p><strong>Making it about you.</strong> "Oh I know exactly how you feel — when that happened to me..." This isn't empathy. It's a redirect. The conversation just moved from them to you.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="s-num teal">3</div>
+        <div class="s-body"><p><strong>Reassuring too fast.</strong> "I'm sure it'll be fine!" feels dismissive before the person has been heard. It can land as: <em>your feelings aren't necessary, let's skip to the part where everything's okay.</em></p></div>
+      </div>
+      <div class="step-row">
+        <div class="s-num teal">4</div>
+        <div class="s-body"><p><strong>Fixing mode.</strong> Immediately offering solutions signals that the goal is to make the discomfort stop — yours as much as theirs. Sometimes people just need to be in it with someone else for a while.</p></div>
+      </div>
+    </div>
+
+    <h3>The WAIT skill</h3>
+    <div class="def-box">
+      <div class="def-head">WAIT — Why Am I Talking?</div>
+      <div class="def-body"><p>Before you respond, pause and ask yourself: <em>Why am I about to talk?</em> Is it because they need to hear this? Or because I'm uncomfortable with the silence, or want to appear helpful, or want to share my own story? If it's the latter — stay quiet a little longer. Wait until they've really finished. Often the most important thing someone says comes just after the first pause.</p></div>
+    </div>
+
+    <h3>Validating without agreeing</h3>
+    <p>Validation is one of the most misunderstood skills. It does not mean you agree with someone, or think they're right, or that the situation is okay. It means: <strong>I can understand why you feel the way you feel, given your experience.</strong> That's it.</p>
+    <p>Phrases that validate: <em>"That makes total sense that you'd feel that way."</em> — <em>"I can see why that hit you so hard."</em> — <em>"Of course you're upset — that was a lot."</em> These aren't agreement. They're acknowledgment. They say: your experience is real and I can see it.</p>
+
+    <div class="callout teal">
+      <div class="co-icon">🎯</div>
+      <div class="co-body">
+        <div class="co-label">The listening sequence</div>
+        <p><strong>1.</strong> Get fully present (put everything down, make eye contact) → <strong>2.</strong> Let them fully finish — including the pause after → <strong>3.</strong> Validate the feeling, not the facts → <strong>4.</strong> Ask a real question before offering any advice → <strong>5.</strong> Only offer solutions if they ask for them</p>
+      </div>
+    </div>
+
+    <div class="worksheet">
+      <div class="ws-head">
+        <div class="ws-icon">👂</div>
+        <div class="ws-head-text">
+          <h4>Worksheet 2.2 — Learning to Listen</h4>
+          <p>Real listening is a practice — and it takes some unlearning of old habits first.</p>
+        </div>
+      </div>
+      <div>
+        <div class="ws-step teal-step">
+          <div class="ws-step-top">
+            <div class="ws-n teal">1</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Which listening barrier do you fall into most often? Be honest.</div>
+              <div class="ws-why">Most people have a default — the one they do automatically. Knowing yours is how you start to catch it in the moment.</div>
+            </div>
+          </div>
+          <div class="check-items">
+            <div class="ci teal-c" onclick="toggleCI(this)"><input type="checkbox"><label>Preparing my response while they're still talking</label></div>
+            <div class="ci teal-c" onclick="toggleCI(this)"><input type="checkbox"><label>Making it about me / relating with my own story</label></div>
+            <div class="ci teal-c" onclick="toggleCI(this)"><input type="checkbox"><label>Reassuring too fast ("I'm sure it'll be fine")</label></div>
+            <div class="ci teal-c" onclick="toggleCI(this)"><input type="checkbox"><label>Jumping to advice / fix-it mode</label></div>
+            <div class="ci teal-c" onclick="toggleCI(this)"><input type="checkbox"><label>Getting distracted by my phone</label></div>
+          </div>
+        </div>
+
+        <div class="ws-step teal-step">
+          <div class="ws-step-top">
+            <div class="ws-n teal">2</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Think of a recent conversation where someone was trying to tell you something. Did they feel heard? How do you know?</div>
+              <div class="ws-why">We can often feel in retrospect when a conversation fell flat — when someone seemed deflated after sharing, or changed the subject quickly. Noticing that helps you trace what happened.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'She was telling me about her job stress and I gave her three suggestions. She got quieter and said "yeah you're right" and we moved on. I don't think she felt heard at all.'"></textarea>
+        </div>
+
+        <div class="ws-step teal-step">
+          <div class="ws-step-top">
+            <div class="ws-n teal">3</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Practice writing a validating response. Read this scenario and write what you'd say: "I've been feeling really overwhelmed at work — like no matter how hard I try, I can never do enough."</div>
+              <div class="ws-why">Validation practice works best when it's concrete. Write the actual words — not "I'd say something supportive" but the specific response. Notice your instinct is probably to fix or reassure.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="Write your response here. Try to validate the feeling without fixing, reassuring, or relating it back to yourself. Start with something like: 'That sounds exhausting...' or 'Of course you feel that way...'"></textarea>
+          <div class="ws-tip"><strong>Notice:</strong> If your response contained advice, reassurance ("it'll get better!"), or your own story ("I know the feeling — at my old job..."), try rewriting it with none of those things. Just acknowledgment.</div>
+        </div>
+
+        <div class="ws-step teal-step">
+          <div class="ws-step-top">
+            <div class="ws-n teal">4</div>
+            <div class="ws-q-block">
+              <div class="ws-q">This week: have one conversation where your only job is to listen and validate — no advice, no fixing, no relating to yourself. What happened?</div>
+              <div class="ws-why">This feels uncomfortable at first because we're trained to be useful. Sitting with someone in their experience without trying to change it takes practice. Note what was hard and what shifted.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="Who did you do this with? What was hard about it? What did you notice in them when you stayed in listening mode?"></textarea>
+        </div>
+      </div>
+      <div class="ws-foot">
+        <div class="ws-foot-note">Fill in Step 4 after your listening conversation this week.</div>
+        <button class="ws-save teal-btn" onclick="saveWS(this,'done-L5')">Save worksheet ✓</button>
+      </div>
+      <div class="ws-done" id="done-L5">✓ Saved. The gift of being fully heard is one of the rarest things one person can give another. 👂</div>
+    </div>
+
+    <div class="l-foot">
+      <button class="comp-btn" id="cb-L5" onclick="completeL('L5',this)">Mark lesson complete ✓</button>
+      <button class="next-btn" onclick="go('L6')">Next: The Emotional Bank Account →</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       L6: EMOTIONAL BANK ACCOUNT
+  ============================================================ -->
+  <div class="lview hidden" id="view-L6">
+    <h2>The Emotional Bank Account</h2>
+    <p class="intro-line">Every relationship has a running balance. Every interaction is either a deposit or a withdrawal. Understanding this changes how you think about both the small good moments and the inevitable hard ones.</p>
+    <div class="obj-bar">
+      <div class="obj-icon">🎯</div>
+      <div>
+        <div class="obj-chips-label">In this lesson</div>
+        <div class="obj-chips">
+          <span class="obj-chip">What the balance means</span>
+          <span class="obj-chip">What counts as a deposit</span>
+          <span class="obj-chip">The 5:1 ratio</span>
+          <span class="obj-chip">Auditing your relationships</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Every interaction has a balance</h3>
+    <p>Gottman developed the concept of the <strong>Emotional Bank Account</strong> — the idea that every relationship has a running balance of positive to negative interactions. Deposits are moments of connection, warmth, humor, support, attention, appreciation. Withdrawals are criticism, dismissal, conflict, broken promises, contempt, being ignored.</p>
+    <p>The balance in this account determines how a relationship handles stress. A high-balance relationship can absorb conflict and difficulty without threatening its foundation. A low-balance relationship breaks under the same pressure.</p>
+
+    <div class="callout gold">
+      <div class="co-icon">5️⃣</div>
+      <div class="co-body">
+        <div class="co-label">The 5:1 ratio</div>
+        <p>Gottman's research found a specific number: <strong>stable, connected relationships have at least 5 positive interactions for every 1 negative one.</strong> This doesn't mean avoiding conflict — conflict is normal and necessary. It means that the cushion of good interactions needs to be thick enough to absorb the inevitable hard ones.</p>
+      </div>
+    </div>
+
+    <h3>What counts as a deposit — it's smaller than you think</h3>
+    <p>Deposits aren't just big romantic gestures or long heartfelt conversations. Gottman found that the most important deposits are <em>small, frequent, and consistent.</em></p>
+    <table class="dtable">
+      <tr><th>Deposit</th><th>What it communicates</th></tr>
+      <tr><td>Turning toward a bid (even briefly)</td><td>"I see you. You have my attention."</td></tr>
+      <tr><td>Expressing genuine appreciation</td><td>"I notice you. I value what you do."</td></tr>
+      <tr><td>Physical affection (appropriate to relationship)</td><td>"I'm glad you're here."</td></tr>
+      <tr><td>Asking a real question and listening</td><td>"I want to know you, not just be near you."</td></tr>
+      <tr><td>Remembering something they told you</td><td>"You matter enough that I was paying attention."</td></tr>
+      <tr><td>Saying sorry and meaning it</td><td>"Our relationship matters more than my ego."</td></tr>
+      <tr><td>Showing up when it's hard</td><td>"I'm here when things are bad, not just good."</td></tr>
+    </table>
+
+    <div class="callout rose">
+      <div class="co-icon">⚠️</div>
+      <div class="co-body">
+        <div class="co-label">Withdrawals hit harder than deposits feel good</div>
+        <p>Negative interactions have roughly <strong>5 times the emotional weight</strong> of positive ones — which is why the ratio has to be so skewed toward positive. One contemptuous remark does more damage than several warm moments can repair. This isn't unfair — it's just how human nervous systems work around threat.</p>
+      </div>
+    </div>
+
+    <div class="worksheet">
+      <div class="ws-head">
+        <div class="ws-icon">🏦</div>
+        <div class="ws-head-text">
+          <h4>Worksheet 2.3 — Auditing Your Relationship Balance</h4>
+          <p>An honest look at the deposits and withdrawals in a relationship that matters to you.</p>
+        </div>
+      </div>
+      <div>
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n gold">1</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Pick one relationship to audit (partner, close friend, family member). What is the current balance — high, medium, or low? What's your gut sense?</div>
+              <div class="ws-why">You usually already know the answer here. Trust your feeling about the warmth and ease (or strain) in the relationship before you analyze it.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="Relationship: _____________  Balance: High / Medium / Low&#10;What makes you say that? What does the day-to-day feel like?"></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n gold">2</div>
+            <div class="ws-q-block">
+              <div class="ws-q">List 3 things you do regularly that are deposits in this relationship.</div>
+              <div class="ws-why">Being specific reveals what your actual deposit patterns are — not what you intend, but what you actually do consistently.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="1. ________________&#10;2. ________________&#10;3. ________________"></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n gold">3</div>
+            <div class="ws-q-block">
+              <div class="ws-q">List 2–3 things you do that are regular withdrawals — even unintentionally.</div>
+              <div class="ws-why">This is not self-blame — it's honest accounting. Most withdrawals are unintentional: distraction, criticism said in frustration, not following through on small things. Name them.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'I'm often on my phone when they're talking. I can be dismissive when I'm tired. I cancel plans sometimes without much thought.'"></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n gold">4</div>
+            <div class="ws-q-block">
+              <div class="ws-q">What is one deposit you could make this week that would genuinely matter to this specific person?</div>
+              <div class="ws-why">Deposits only count when the other person experiences them as positive. What matters to <em>them</em> might be different from what you'd naturally offer. Think about what they'd actually feel as a deposit.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'She loves when I ask about specific things she mentioned. I could ask about that work presentation she was nervous about.'"></textarea>
+          <div class="ws-tip"><strong>Homework:</strong> Make the specific deposit you named above this week. Notice the response — not to get credit, but to calibrate what actually lands for this person.</div>
+        </div>
+      </div>
+      <div class="ws-foot">
+        <div class="ws-foot-note">Small, consistent deposits over time transform relationships.</div>
+        <button class="ws-save" onclick="saveWS(this,'done-L6')" style="background:var(--gold);">Save worksheet ✓</button>
+      </div>
+      <div class="ws-done" id="done-L6">✓ Saved. You've completed Module 2. The daily skills of connection are now in your hands. 🏦</div>
+    </div>
+
+    <div class="l-foot">
+      <button class="comp-btn" id="cb-L6" onclick="completeL('L6',this)">Mark lesson complete ✓</button>
+      <button class="next-btn" onclick="go('L7')">Start Module 3: When Things Go Wrong →</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       L7: FOUR HORSEMEN
+  ============================================================ -->
+  <div class="lview hidden" id="view-L7">
+    <h2>The 4 Things That Kill Connection</h2>
+    <p class="intro-line">Gottman identified four communication patterns that reliably destroy closeness over time. He called them the Four Horsemen. Most of us use at least one of them — often without knowing it.</p>
+    <div class="obj-bar">
+      <div class="obj-icon">🎯</div>
+      <div>
+        <div class="obj-chips-label">In this lesson</div>
+        <div class="obj-chips">
+          <span class="obj-chip">The 4 Horsemen</span>
+          <span class="obj-chip">Why each is harmful</span>
+          <span class="obj-chip">The antidote for each</span>
+          <span class="obj-chip">Spot your own patterns</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Criticism vs. Complaint</h3>
+    <p>There is nothing wrong with expressing a complaint — "I felt let down when you forgot." That's healthy. <strong>Criticism attacks the person instead of the problem</strong> — "You always forget because you don't care about me." Criticism implies something is fundamentally wrong with who someone is. Even small, frequent criticisms erode the sense of being accepted by the person you love most.</p>
+    <div class="callout teal">
+      <div class="co-icon">💚</div>
+      <div class="co-body"><div class="co-label">The antidote: gentle start-up</div><p>State the behavior you're reacting to, say how it made you feel, and make a positive need known. "When X happened, I felt Y, I need Z." No character attacks. No "you always" or "you never."</p></div>
+    </div>
+
+    <h3>Contempt — the most destructive of all</h3>
+    <p>Contempt is the sense that you are superior to the other person — expressed through mockery, sarcasm, eye-rolling, dismissiveness, or name-calling. It communicates: <em>you are beneath me.</em> Gottman found contempt to be the single strongest predictor of relationship breakdown — more than any other factor. It is corrosive to connection because it attacks the other person's fundamental worthiness of love and respect.</p>
+    <div class="callout rose">
+      <div class="co-icon">❤️</div>
+      <div class="co-body"><div class="co-label">The antidote: build a culture of appreciation</div><p>Actively look for what you admire and appreciate about the person. Express it out loud, regularly. Contempt grows in the absence of appreciation — it fills a vacuum.</p></div>
+    </div>
+
+    <h3>Defensiveness</h3>
+    <p>When someone raises a concern and you respond with defensiveness — counter-attacking, making excuses, playing victim — you're communicating: <em>the problem isn't me, it's you.</em> Even if the criticism felt unfair, defensiveness blocks the possibility of repair. The other person feels unheard and frustrated, and the original issue never gets addressed.</p>
+    <div class="callout teal">
+      <div class="co-icon">🌱</div>
+      <div class="co-body"><div class="co-label">The antidote: take responsibility for something</div><p>Even if you think the complaint is partly unfair, ask yourself: "Is there any part of this that I can own?" Usually yes. Acknowledging even a small piece of your contribution completely changes the temperature of the conversation.</p></div>
+    </div>
+
+    <h3>Stonewalling</h3>
+    <p>Stonewalling is going emotionally offline — shutting down, going silent, leaving the room, becoming a wall. It often happens when someone is flooded with emotion and has no capacity left. The problem is that stonewalling communicates contempt and rejection to the other person — even when what's actually happening is overwhelm, not indifference.</p>
+    <div class="callout gold">
+      <div class="co-icon">⏸️</div>
+      <div class="co-body"><div class="co-label">The antidote: call a time-out properly</div><p>Before you shut down, say it out loud: <em>"I need 20 minutes to calm down before we continue — I want to keep talking about this, just not right now."</em> The key is naming it and committing to return. Disappearing without explanation is stonewalling. A named, time-limited break is a repair attempt.</p></div>
+    </div>
+
+    <div class="worksheet">
+      <div class="ws-head">
+        <div class="ws-icon">🔎</div>
+        <div class="ws-head-text">
+          <h4>Worksheet 3.1 — Spotting Your Horsemen</h4>
+          <p>Honest recognition is the first step. We all use these patterns — the goal is to see yours clearly enough to change them.</p>
+        </div>
+      </div>
+      <div>
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n plum">1</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Which of the four patterns do you recognize most in yourself?</div>
+              <div class="ws-why">Be honest. Most people lean toward one or two. There's no judgment here — just useful self-knowledge.</div>
+            </div>
+          </div>
+          <div class="check-items">
+            <div class="ci plum-c" onclick="toggleCI(this)"><input type="checkbox"><label><strong>Criticism</strong> — I attack the person not just the problem<small>Character attacks, "you always/never," implying something's wrong with them</small></label></div>
+            <div class="ci plum-c" onclick="toggleCI(this)"><input type="checkbox"><label><strong>Contempt</strong> — I can be dismissive, sarcastic, or superior<small>Eye-rolling, mockery, treating their view as unworthy</small></label></div>
+            <div class="ci plum-c" onclick="toggleCI(this)"><input type="checkbox"><label><strong>Defensiveness</strong> — I counter-attack or make excuses instead of listening<small>Playing victim, "you're the one who...", never acknowledging my part</small></label></div>
+            <div class="ci plum-c" onclick="toggleCI(this)"><input type="checkbox"><label><strong>Stonewalling</strong> — I shut down and go emotionally offline<small>Silent treatment, leaving, going flat, refusing to engage</small></label></div>
+          </div>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n plum">2</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Describe a specific moment when you used your main pattern. What triggered it?</div>
+              <div class="ws-why">Understanding the trigger makes it possible to catch the pattern earlier — before you're already in it. What is the specific type of situation that activates this response?</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'When I feel criticized first, I go straight to defensiveness. Last week she said she felt like I wasn't listening and I immediately listed all the ways I had been.'"></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n plum">3</div>
+            <div class="ws-q-block">
+              <div class="ws-q">What is usually going on emotionally just before you do this — what are you feeling underneath?</div>
+              <div class="ws-why">The Four Horsemen are almost always covering something — fear, hurt, overwhelm, shame. The behavior is the outside. What's happening on the inside?</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'Under my defensiveness is usually shame — I feel like I'm being told I'm not good enough. The defensiveness is protecting against that.'"></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n plum">4</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Write out what the "antidote" response would look like for you in a specific situation where you normally default to your pattern.</div>
+              <div class="ws-why">Writing the specific alternative — the actual words you could say — makes it real and available in the moment. Generic plans don't execute. Specific ones do.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'Instead of: "Well you NEVER listen to me either—"&#10;I could say: "Okay — I can see this bothered you. I think I was distracted. Tell me what you needed."'"></textarea>
+        </div>
+      </div>
+      <div class="ws-foot">
+        <div class="ws-foot-note">Catching your own patterns is genuinely hard work.</div>
+        <button class="ws-save plum-btn" onclick="saveWS(this,'done-L7')">Save worksheet ✓</button>
+      </div>
+      <div class="ws-done" id="done-L7">✓ Saved. Seeing your patterns clearly is the exact moment they start to lose their power. 🔎</div>
+    </div>
+
+    <div class="l-foot">
+      <button class="comp-btn" id="cb-L7" onclick="completeL('L7',this)">Mark lesson complete ✓</button>
+      <button class="next-btn" onclick="go('L8')">Next: How to Say What You Mean →</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       L8: NVC — SAYING WHAT YOU MEAN
+  ============================================================ -->
+  <div class="lview hidden" id="view-L8">
+    <h2>How to Say What You Mean</h2>
+    <p class="intro-line">Most of the ways we've learned to express what we need are actually designed — accidentally — to make the other person feel attacked. There's a better way, and it's simpler than you think.</p>
+    <div class="obj-bar">
+      <div class="obj-icon">🎯</div>
+      <div>
+        <div class="obj-chips-label">In this lesson</div>
+        <div class="obj-chips">
+          <span class="obj-chip">Why our words create conflict</span>
+          <span class="obj-chip">Observations vs. evaluations</span>
+          <span class="obj-chip">Feelings vs. thoughts</span>
+          <span class="obj-chip">The OFNR framework</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>The problem with how we usually talk</h3>
+    <p>When we're hurting, we typically say things that put the other person on trial: <em>"You make me feel dismissed."</em> <em>"You're so selfish."</em> <em>"You never listen."</em> These statements may be expressing real pain — but the form they take activates the other person's defensiveness before they can actually hear you. The result: they defend themselves, you feel unheard, the argument escalates, and the real need — connection — gets further away.</p>
+    <p>Marshall Rosenberg developed <strong>Nonviolent Communication (NVC)</strong> — a simple framework for expressing yourself in a way that makes the other person more able to hear you, not less.</p>
+
+    <h3>The OFNR framework — four simple steps</h3>
+    <div class="steps">
+      <div class="step-row">
+        <div class="s-num plum">O</div>
+        <div class="s-body"><p><strong>Observation — just the facts, no evaluation.</strong> What actually happened, as a camera would record it. "You came home at 11pm on Tuesday." Not: "You're always late and you don't care about this family."</p></div>
+      </div>
+      <div class="step-row">
+        <div class="s-num plum">F</div>
+        <div class="s-body"><p><strong>Feeling — your actual emotion, not a thought disguised as one.</strong> "I felt lonely" (feeling). Not "I felt like you don't care about me" (that's a thought about them, not a feeling in you).</p></div>
+      </div>
+      <div class="step-row">
+        <div class="s-num plum">N</div>
+        <div class="s-body"><p><strong>Need — what you actually needed in that moment.</strong> "I need to feel like I matter to you." "I need us to spend time together." Name the underlying need, not the demand.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="s-num plum">R</div>
+        <div class="s-body"><p><strong>Request — a specific, concrete, positive ask.</strong> "Could we have one evening this week that's just us?" Not a demand: they can say no. A genuine request: you're giving them the chance to meet your need, freely.</p></div>
+      </div>
+    </div>
+
+    <div class="def-box">
+      <div class="def-head">OFNR in action — before and after</div>
+      <div class="def-body">
+        <p><strong>Before:</strong> "You're so checked out lately. You don't care about anyone but yourself. I'm sick of feeling invisible in this house."</p>
+        <p style="margin-top:10px;"><strong>After (OFNR):</strong> "This week, when I got home, we didn't really talk beyond logistics. I've been feeling lonely and a bit disconnected. I need to feel like we're actually in each other's lives, not just sharing a space. Could we have dinner together without phones on Thursday?"</p>
+        <p style="margin-top:10px;font-style:italic;color:var(--text-light);">Same feeling. Completely different impact on the other person.</p>
+      </div>
+    </div>
+
+    <div class="callout plum">
+      <div class="co-icon">⚡</div>
+      <div class="co-body">
+        <div class="co-label">The hardest part: real feelings vs. fake feelings</div>
+        <p>Real feelings: lonely, scared, hurt, grateful, anxious, excited, sad, angry, embarrassed, overwhelmed. Fake feelings (actually thoughts or judgments): "I feel like you don't care." "I feel ignored." "I feel like a doormat." These contain "like" or "that" after "feel" — and actually describe what you think <em>they</em> are doing, not what you're experiencing.</p>
+      </div>
+    </div>
+
+    <div class="worksheet">
+      <div class="ws-head">
+        <div class="ws-icon">💬</div>
+        <div class="ws-head-text">
+          <h4>Worksheet 3.2 — Rewriting Your Words</h4>
+          <p>Practice is what makes this usable when things are hard. Write first, rewrite second — see what shifts.</p>
+        </div>
+      </div>
+      <div>
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n plum">1</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Write something you've said (or wanted to say) to someone that came out as an attack, accusation, or criticism.</div>
+              <div class="ws-why">Start with raw material. We need to see the old language before we can rewrite it. What did you actually say — or what are you carrying that hasn't been said yet?</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'You only ever think about yourself. You're not really there for me when it matters.'"></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n plum">2</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Now separate it into the four parts. What is the observable fact? What is your real feeling? What is your underlying need? What is your specific request?</div>
+              <div class="ws-why">This is the core skill. Taking something that came out as an attack and finding the human need underneath it — that need, expressed clearly, is what people can actually respond to.</div>
+            </div>
+          </div>
+          <textarea class="inp" style="min-height:120px;" placeholder="Observation (just facts, no judgment): ________________&#10;Feeling (real emotion, not thought): ________________&#10;Need (underlying, not a demand): ________________&#10;Request (specific, positive, they can say no): ________________"></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n plum">3</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Now write the full OFNR statement as you might actually say it out loud.</div>
+              <div class="ws-why">It needs to sound like you — not like a script from a textbook. Rewrite it in your voice until it feels genuine enough to actually say.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="'When [observation], I felt [feeling]. I think what I really need is [need]. Would you be open to [request]?'  — Make it sound like you."></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n plum">4</div>
+            <div class="ws-q-block">
+              <div class="ws-q">What do you notice is different between the original version and the OFNR version? How do you imagine the other person would receive each one?</div>
+              <div class="ws-why">The point isn't to perfectly follow a formula — it's to feel, viscerally, the difference in how these land on another person. That difference is what motivates the change.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'The first version would put him on defense immediately. The second one... I think he could actually hear it. It sounds more like I need him than like I hate him.'"></textarea>
+        </div>
+      </div>
+      <div class="ws-foot">
+        <div class="ws-foot-note">OFNR gets easier and more natural with practice.</div>
+        <button class="ws-save plum-btn" onclick="saveWS(this,'done-L8')">Save worksheet ✓</button>
+      </div>
+      <div class="ws-done" id="done-L8">✓ Saved. Learning to say what you mean — in a way that opens people rather than closes them — is a profound skill. 💬</div>
+    </div>
+
+    <div class="l-foot">
+      <button class="comp-btn" id="cb-L8" onclick="completeL('L8',this)">Mark lesson complete ✓</button>
+      <button class="next-btn" onclick="go('L9')">Final Lesson: Repair →</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       L9: REPAIR
+  ============================================================ -->
+  <div class="lview hidden" id="view-L9">
+    <h2>Repair: Coming Back Together</h2>
+    <p class="intro-line">The goal in any close relationship is not to never hurt each other. That's impossible. The goal is to be able to come back. The ability to repair after rupture is what separates deep, lasting connection from brittle, conditional closeness.</p>
+    <div class="obj-bar">
+      <div class="obj-icon">🎯</div>
+      <div>
+        <div class="obj-chips-label">In this lesson</div>
+        <div class="obj-chips">
+          <span class="obj-chip">What repair actually is</span>
+          <span class="obj-chip">Rupture and reconnection</span>
+          <span class="obj-chip">What a real apology sounds like</span>
+          <span class="obj-chip">Your repair plan</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Repair is the most underrated relationship skill</h3>
+    <p>We spend a lot of energy trying to not hurt each other — to be careful, measured, controlled. But all close relationships involve rupture: moments when one person hurts, dismisses, misunderstands, or fails the other. What makes a relationship strong is not avoiding these moments. It's what you do <em>after</em> them.</p>
+    <p>Gottman found that <strong>the ability and willingness to repair is more predictive of relationship success than almost anything else.</strong> Couples who could make and accept repair attempts — even clumsy ones — thrived. Those who couldn't, didn't.</p>
+
+    <div class="callout rose">
+      <div class="co-icon">🔄</div>
+      <div class="co-body">
+        <div class="co-label">The repair cycle</div>
+        <p>Connection → Rupture → Repair → Deeper connection. This cycle, done enough times, builds a relationship that both people trust not because it has never been tested, but because it has been tested and held. Every successful repair deposits trust into the account.</p>
+      </div>
+    </div>
+
+    <h3>What stops people from repairing</h3>
+    <div class="steps">
+      <div class="step-row">
+        <div class="s-num plum">1</div>
+        <div class="s-body"><p><strong>Pride.</strong> Admitting you were wrong or that you hurt someone feels like losing. But in a relationship, being right and being close are often in direct competition — and you have to choose.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="s-num plum">2</div>
+        <div class="s-body"><p><strong>Waiting for the other person to go first.</strong> Someone has to take the risk. If both people wait, no repair happens and the distance grows.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="s-num plum">3</div>
+        <div class="s-body"><p><strong>Not knowing how.</strong> Many people didn't grow up watching healthy repair. They never learned what a real apology sounds like — or how to receive one.</p></div>
+      </div>
+    </div>
+
+    <h3>What a real apology sounds like</h3>
+    <p>A real apology is not: <em>"I'm sorry you feel that way."</em> (That's not an apology — it makes their feeling the problem.) Not: <em>"I'm sorry, but you have to understand..."</em> (The "but" erases everything before it.) Not: <em>"I'm sorry if I hurt you."</em> (The "if" implies you're not sure you did.)</p>
+    <p>A real apology has three parts: <strong>acknowledgment</strong> (I understand what I did and why it landed the way it did), <strong>accountability</strong> (I own my part — without qualifying it away), and <strong>commitment</strong> (I want to do differently — here's how).</p>
+
+    <div class="def-box">
+      <div class="def-head">Real apology vs. non-apology</div>
+      <div class="def-body">
+        <p><strong>Non-apology:</strong> "I'm sorry you got upset. I didn't mean it that way. You know I love you. You're too sensitive sometimes."</p>
+        <p style="margin-top:10px;"><strong>Real apology:</strong> "I said something dismissive when you were trying to tell me something important. I can see that stung — like what you were sharing didn't matter to me. It does matter. I was distracted and I handled it badly. I want to hear what you were trying to say."</p>
+      </div>
+    </div>
+
+    <div class="pull-q">
+      <p>"The goal is not to be perfect. The goal is to be human enough to fail, and brave enough to repair."</p>
+      <cite>— Common therapeutic principle</cite>
+    </div>
+
+    <h3>Receiving repair — the other half of the equation</h3>
+    <p>Repair requires two: someone has to offer it, and someone has to be able to receive it. Receiving repair can be as hard as offering it. If you punish attempts to repair — if you stay cold, withhold, or stay in injured mode longer than the situation warrants — you teach the other person that repair attempts aren't worth making. Over time, they'll stop trying.</p>
+
+    <div class="worksheet">
+      <div class="ws-head">
+        <div class="ws-icon">🌉</div>
+        <div class="ws-head-text">
+          <h4>Worksheet 3.3 — Your Repair Practice</h4>
+          <p>The final worksheet in this course. This one is about integrating everything you've learned into the concrete practice of coming back to someone after a rupture.</p>
+        </div>
+      </div>
+      <div>
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n plum">1</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Is there a current or recent rupture in a relationship that hasn't been fully repaired? Describe what happened.</div>
+              <div class="ws-why">Start with something real. This worksheet works best as a tool for an actual situation, not a hypothetical one.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="Describe the rupture — what happened, and where things stand now."></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n plum">2</div>
+            <div class="ws-q-block">
+              <div class="ws-q">What is your part in it — honestly? Even if you feel the other person bears more responsibility, what is your piece?</div>
+              <div class="ws-why">Repair doesn't require perfect fairness. You can acknowledge your part even when you feel wronged. And usually, acknowledging your part first makes it far easier for the other person to acknowledge theirs.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'I was dismissive first. I had been building resentment for weeks and took it out in one moment. I didn't give them a chance to respond before I escalated.'"></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n plum">3</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Write a real apology — using acknowledgment, accountability, and commitment. In your actual voice.</div>
+              <div class="ws-why">Write it like you'd say it. Not formal. Not perfect. Just real and specific enough that the person knows you actually understand what happened.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="Acknowledgment (I understand what I did and why it landed how it did): ________________&#10;Accountability (I own this — no "but"): ________________&#10;Commitment (here's what I want to do differently): ________________"></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n plum">4</div>
+            <div class="ws-q-block">
+              <div class="ws-q">What has this whole course made you want to do differently — in a specific relationship, starting this week?</div>
+              <div class="ws-why">Courses don't change relationships. Actions do. Name one specific, concrete thing you will do differently, with a specific person, in the coming days.</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="e.g., 'I'm going to tell my sister the real reason I've been distant instead of staying cold.' Or 'I'm going to turn toward my partner's bids this week instead of being on my phone.'"></textarea>
+        </div>
+
+        <div class="ws-step">
+          <div class="ws-step-top">
+            <div class="ws-n plum">5</div>
+            <div class="ws-q-block">
+              <div class="ws-q">Looking back at your Lesson 1.1 answer — what would "more secure" look like for you — has anything shifted in how you see that?</div>
+              <div class="ws-why">This is your course reflection. You started somewhere. Has anything moved? What do you understand now that you didn't before — about yourself, about connection, about what's possible?</div>
+            </div>
+          </div>
+          <textarea class="inp" placeholder="Take your time with this one. What has genuinely shifted, even a little?"></textarea>
+          <div class="ws-tip"><strong>You've finished the course.</strong> These aren't things you learn once — they're practices you return to. The moments of real connection you build using these skills will be the moments you look back on.</div>
+        </div>
+      </div>
+      <div class="ws-foot">
+        <div class="ws-foot-note">Connection is built one honest moment at a time.</div>
+        <button class="ws-save plum-btn" onclick="saveWS(this,'done-L9')">Complete the course ✓</button>
+      </div>
+      <div class="ws-done" id="done-L9">🎉 Course complete. You've done real work here — the kind most people never do. Every close relationship in your life will feel the difference. 🌉</div>
+    </div>
+
+    <div class="l-foot">
+      <button class="comp-btn" id="cb-L9" onclick="completeL('L9',this)">Mark lesson complete ✓</button>
+      <div style="font-size:0.8rem;color:var(--text-light);font-style:italic;max-width:260px;line-height:1.5;">Thank you for taking this seriously. Connection is the whole thing.</div>
+    </div>
+  </div>
+
+</div><!-- end .main -->
+
+<script>
+// ============================================
+// CONFIG
+// ============================================
+const TITLES = {
+  home: 'Welcome to Close',
+  L1:'1.1 — Your Attachment Style', L2:'1.2 — The Walls We Build',
+  L3:'1.3 — Vulnerability: The Door In',
+  L4:'2.1 — Bids for Connection', L5:'2.2 — How to Actually Listen',
+  L6:'2.3 — The Emotional Bank Account',
+  L7:'3.1 — 4 Things That Kill Connection', L8:'3.2 — How to Say What You Mean',
+  L9:'3.3 — Repair: Coming Back Together',
+};
+const BADGES = {
+  home:{t:'Intro',c:'intro'},
+  L1:{t:'Module 1',c:'m1'}, L2:{t:'Module 1',c:'m1'}, L3:{t:'Module 1',c:'m1'},
+  L4:{t:'Module 2',c:'m2'}, L5:{t:'Module 2',c:'m2'}, L6:{t:'Module 2',c:'m2'},
+  L7:{t:'Module 3',c:'m3'}, L8:{t:'Module 3',c:'m3'}, L9:{t:'Module 3',c:'m3'},
+};
+let done = new Set();
+
+// ============================================
+// NAVIGATION
+// ============================================
+function go(id){
+  document.querySelectorAll('.lview,.welcome').forEach(el=>el.classList.add('hidden'));
+  const v = document.getElementById('view-'+id);
+  if(v) v.classList.remove('hidden');
+  document.querySelectorAll('.n-item').forEach(n=>n.classList.remove('active'));
+  const ni = document.getElementById('nav-'+id);
+  if(ni) ni.classList.add('active');
+  document.getElementById('tbTitle').textContent = TITLES[id]||'';
+  const b = BADGES[id]||{t:'',c:'intro'};
+  const bEl = document.getElementById('tbBadge');
+  bEl.textContent = b.t; bEl.className = 'tb-badge '+b.c;
+  window.scrollTo(0,0);
+  closeSidebar();
+}
+
+function completeL(id, btn){
+  done.add(id);
+  btn.classList.add('done');
+  btn.textContent = '✓ Completed';
+  const dot = document.getElementById('dot-'+id);
+  if(dot){dot.className='n-dot done';dot.textContent='✓';}
+  const pct = Math.round((done.size/9)*100);
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('progText').textContent=done.size+' / 9 lessons';
+}
+
+// ============================================
+// SIDEBAR MOBILE
+// ============================================
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// ============================================
+// WORKSHEET
+// ============================================
+function saveWS(btn, msgId){
+  btn.textContent='Saved ✓';
+  btn.classList.add('saved');
+  const m = document.getElementById(msgId);
+  if(m) m.classList.add('show');
+}
+
+function toggleCI(item){
+  item.classList.toggle('checked');
+  const cb = item.querySelector('input[type=checkbox]');
+  if(cb) cb.checked = !cb.checked;
+}
+
+// ============================================
+// INIT
+// ============================================
+window.addEventListener('DOMContentLoaded',()=>go('home'));
+</script>
+</body>
+</html>
